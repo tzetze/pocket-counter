@@ -1,4 +1,4 @@
-from flask import Flask, redirect, session
+from flask import Flask, redirect, session, url_for
 import sys
 import config
 import client
@@ -7,10 +7,11 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    code = client.get_request_token(config.oauth_request_url, config.consumer_key, config.redirect_uri)
+    redirect_uri = url_for('callback')
+    code = client.get_request_token(config.oauth_request_url, config.consumer_key, redirect_uri)
     session['code'] = code
     return redirect(
-        client.build_auth_url(config.authorize_url, code, config.redirect_uri)
+        client.build_auth_url(config.authorize_url, code, redirect_uri)
     )
 
 @app.route("/callback")
