@@ -1,0 +1,4 @@
+pocket-counter:
+  image: tzetze/pocket-counter
+  ports:
+   - "80:4242"
