@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    redirect_uri = url_for('callback')
+    redirect_uri = url_for('callback', _external=True)
     code = client.get_request_token(config.oauth_request_url, config.consumer_key, redirect_uri)
     session['code'] = code
     return redirect(
