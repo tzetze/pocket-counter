@@ -3,3 +3,5 @@ auth_url = 'https://getpocket.com/auth/authorize'
 
 consumer_key = ''
 redirect_uri = 'http://127.0.0.1:4242/callback'
+
+session_secret = 'change it!'
