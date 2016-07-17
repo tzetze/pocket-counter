@@ -19,7 +19,6 @@ def callback():
     access_token = client.get_token(config.oauth_authorize_url, config.consumer_key, code)
     pocket_count = client.get_count(config.list_url, access_token, config.consumer_key)
     return 'Your pocket size: ' + str(pocket_count) + ' <a href="/">again</a>'
-    #return 'returned and we have a token: ' + access_token
 
 if __name__ == "__main__":
     app.secret_key = config.session_secret
