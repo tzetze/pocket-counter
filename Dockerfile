@@ -7,9 +7,7 @@ RUN apk -U upgrade && \
 
 COPY requirements.txt /
 RUN pip install -r requirements.txt
-COPY config.py src/config.py
-COPY client.py src/client.py
-COPY app.py src/app.py
+COPY src
 
 expose 4242
 CMD ["python", "src/app.py"]
