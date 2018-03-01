@@ -37,16 +37,26 @@ def get_token(auth_url, consumer_key, code):
     response_body = dict(urlparse.parse_qsl(raw_response))
     return response_body.get('access_token')
 
-def get_count(list_url, access_token, consumer_key):
+def get_labels(pocket_list):
+    taglist = []
+    for entry in pocket_list.itervalues():
+        print str(entry) + "\n\n"
+        if 'tags' in entry:
+            for label in entry['tags']:
+                if ' minutes' in label:
+                    taglist.append(label)
+    return taglist
+
+def get_list(list_url, access_token, consumer_key):
     list_params = {
         'access_token': access_token,
         'consumer_key': consumer_key,
-        'count': 10000
+        'count': 10000,
+        'detailType': 'complete'
     }
     request = urllib2.Request(list_url, urllib.urlencode(list_params))
     response = urllib2.urlopen(request)
 
     raw_response = response.read()
     response_data = json.loads(raw_response)
-
-    return len(response_data.get('list'))
+    return response_data.get('list')

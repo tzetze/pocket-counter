@@ -1,4 +1,5 @@
 from flask import Flask, redirect, session, url_for
+from datetime import timedelta
 import sys
 import config
 import client
@@ -18,8 +19,20 @@ def index():
 def callback():
     code = session['code']
     access_token = client.get_token(config.oauth_authorize_url, config.consumer_key, code)
-    pocket_count = client.get_count(config.list_url, access_token, config.consumer_key)
-    return 'Your pocket size: ' + str(pocket_count) + ' <a href="/">again</a>'
+
+    pocket_list = client.get_list(config.list_url, access_token, config.consumer_key)
+    pocket_count = len(pocket_list)
+    label_list  = client.get_labels(pocket_list)
+
+    minutes = 0
+    for label in label_list:
+        minutes += int(''.join(c for c in label if c.isdigit()))
+
+    html = 'Your pocket size: ' + str(pocket_count) + '<br>'
+    html += 'Time needs to consume: ' + str(timedelta(minutes=minutes)) + '<br>'
+    html += '<a href="/">count it again</a><br><br>'
+    html += 'And your list:<br><pre>' + str(label_list) + '</pre>'
+    return html
 
 if __name__ == "__main__":
     app.secret_key = config.session_secret
