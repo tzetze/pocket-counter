@@ -10,4 +10,4 @@ RUN pip install -r requirements.txt
 COPY src /
 
 expose 4242
-CMD ["python", "src/app.py"]
+CMD ["python", "app.py"]
